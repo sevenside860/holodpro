@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ХолодПроф Україна — професійне холодильне обладнання</title>
+  <meta name="description" content="Професійне холодильне обладнання для кафе, магазинів та виробництв по всій Україні. Доставка: Нова Пошта, SAT. Гарантія та сервіс.">
+  <style>
+    :root{--brand:#0456d6;--accent:#00a3ff;--muted:#6b7280;--bg:#f4f8fd;--card:#ffffff}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system,'Segoe UI',Roboto,Arial; margin:0; background:var(--bg); color:#0b1220;line-height:1.4}
+    a{color:var(--brand);text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    header{background:linear-gradient(180deg,#ffffff 0%,#eef6ff 100%);border-bottom:1px solid #e6eefc}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#dbeeff,var(--brand));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:18px}
+    nav a{margin-left:18px;color:var(--muted);font-weight:600}
+    .hero{display:flex;gap:24px;padding:36px 0;align-items:center}
+    .hero-left{flex:1}
+    .hero h1{margin:0;font-size:36px}
+    .hero p{color:var(--muted);margin-top:8px}
+    .cta{margin-top:18px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:var(--brand);color:white;text-decoration:none;font-weight:700}
+    .btn-ghost{background:transparent;border:1px solid rgba(6,86,214,0.12);color:var(--brand)}
+    .search-bar{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .search-bar input{flex:1;padding:10px 12px;border-radius:8px;border:1px solid #e6eefc}
+    main{padding:20px 0}
+    .filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 24px rgba(2,32,80,0.04);border:1px solid rgba(6,86,214,0.04);display:flex;flex-direction:column}
+    .card img{width:100%;height:170px;object-fit:cover;border-radius:8px}
+    .price{font-weight:800;margin-top:8px}
+    .muted{color:var(--muted);font-size:14px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+    footer{padding:28px 0;border-top:1px solid #e6eefc;background:#fff;margin-top:24px}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .tag{background:#eef6ff;color:var(--brand);padding:6px 10px;border-radius:999px;font-weight:700}
+    /* cart drawer */
+    .cart-btn{position:relative}
+    .cart-count{position:absolute;top:-8px;right:-8px;background:#ff5a5f;color:white;padding:4px 7px;border-radius:999px;font-size:12px}
+    .drawer{position:fixed;right:0;top:0;height:100%;width:420px;max-width:95%;background:#fff;box-shadow:-30px 0 60px rgba(10,20,40,0.2);transform:translateX(110%);transition:transform .28s ease;z-index:999}
+    .drawer.open{transform:translateX(0)}
+    .drawer .head{padding:18px;border-bottom:1px solid #eef3ff;display:flex;justify-content:space-between;align-items:center}
+    .drawer .body{padding:16px;overflow:auto;height:calc(100% - 220px)}
+    .drawer .foot{padding:16px;border-top:1px solid #eef3ff}
+    .item-row{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    .item-row img{width:72px;height:64px;object-fit:cover;border-radius:8px}
+    .small{font-size:13px}
+    /* product modal */
+    .modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(4,12,30,0.6);display:flex;align-items:center;justify-content:center;padding:24px;z-index:1000;visibility:hidden;opacity:0;transition:opacity .2s}
+    .modal.open{visibility:visible;opacity:1}
+    .modal .panel{background:#fff;border-radius:12px;max-width:900px;width:100%;display:flex;gap:18px;padding:18px}
+    .panel img{width:48%;height:360px;object-fit:cover;border-radius:8px}
+    .panel .info{flex:1}
+    .meta{color:var(--muted);font-size:14px}
+    /* responsive */
+    @media (max-width:900px){.hero{flex-direction:column}.panel{flex-direction:column}.panel img{width:100%;height:260px}.grid-3{grid-template-columns:1fr}}
+    /* tiny helpers */
+    .muted-2{color:#42526e}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="top">
+        <div class="brand">
+          <div class="logo">ХП</div>
+          <div>
+            <div style="font-weight:800;letter-spacing:0.2px">ХолодПроф Україна</div>
+            <div class="muted small">Постачання та сервіс холодильного обладнання по всій території України</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <nav>
+            <a href="#catalog">Каталог</a>
+            <a href="#services">Послуги</a>
+            <a href="#delivery">Доставка</a>
+            <a href="#contacts">Контакти</a>
+          </nav>
+          <button class="btn cart-btn" id="openCart">Кошик <span class="cart-count" id="cartCount">0</span></button>
+        </div>
+      </div>
+      <div class="hero">
+        <div class="hero-left">
+          <h1>Найкраще холодильне обладнання для бізнесу — з доставкою по всій Україні</h1>
+          <p>Вітрини, морозильні ларі, холодильно-камери, компресорні блоки та комплектуючі. Гарантія, монтаж і повний сервіс на території України.</p>
+          <div class="cta">
+            <a class="btn" href="#catalog">Переглянути каталог</a>
+            <a class="btn btn-ghost" href="#contacts" style="margin-left:10px">Отримати консультацію</a>
+          </div>
+          <div class="search-bar">
+            <input id="searchInput" placeholder="Пошук по товарах (назва, категорія, модель)...">
+            <select id="categoryFilter" style="padding:10px;border-radius:8px;border:1px solid #e6eefc">
+              <option value="all">Усі категорії</option>
+            </select>
+            <button class="btn btn-ghost" id="resetFilters">Скинути</button>
+          </div>
+        </div>
+        <div style="width:420px">
+          <div style="background:linear-gradient(180deg,#fff 0%,#f6fbff 100%);padding:16px;border-radius:12px;box-shadow:0 12px 30px rgba(3,40,120,0.06)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="tag">Акція</div>
+                <h3 style="margin:8px 0 0">Комплект: вітрина + холодильна камера</h3>
+              </div>
+              <div style="text-align:right">
+                <div class="muted">Знижка</div>
+                <div style="font-weight:800;color:var(--brand)">-12%</div>
+              </div>
+            </div>
+            <img src="https://via.placeholder.com/420x240?text=Комплект+%D0%B2%D1%96%D1%82%D1%80%D0%B8%D0%BD%D0%B0+%2B+%D0%BA%D0%B0%D0%BC%D0%B5%D1%80%D0%B0" alt="акція" style="width:100%;border-radius:8px;margin-top:12px">
+            <p class="muted" style="margin-top:8px">Безкоштовна доставка по Україні при замовленні комплекту. Монтаж з виїздом на об'єкт.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="catalog">
+      <div class="section-title">
+        <h2>Каталог обладнання</h2>
+        <div class="muted">Понад 30 моделей у наявності — оновлюється щотижня</div>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="catalog" id="products"></div>
+    </section>
+
+    <section id="services" style="margin-top:36px">
+      <h2>Послуги</h2>
+      <div class="grid-3">
+        <div class="card"><h4>Монтаж і запуск</h4><p class="muted">Професійний монтаж на об'єкті, підключення до електромережі та налаштування температурних режимів.</p></div>
+        <div class="card"><h4>Гарантійне обслуговування</h4><p class="muted">Гарантія 12 місяців, швидкий виїзд майстра по всій Україні.</p></div>
+        <div class="card"><h4>Ремонт та запчастини</h4><p class="muted">Оригінальні запчастини, швидка заміна компресорів і електроніки.</p></div>
+      </div>
+    </section>
+
+    <section id="delivery" style="margin-top:36px">
+      <h2>Доставка та оплата</h2>
+      <div class="card">
+        <p class="muted">Доставка по всій території України службами <strong>Нова Пошта</strong>, <strong>SAT</strong> та іншими перевізниками. Можливий під'їзд кур'єра до дверей, підйом та розвантаження за домовленістю.</p>
+        <p class="muted">Оплата: безготівковий розрахунок (р/р), платіжні картки (демо інтеграція), оплата при отриманні (готівка) — за домовленістю.</p>
+      </div>
+    </section>
+
+    <section id="contacts" style="margin-top:36px">
+      <h2>Контакти</h2>
+      <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1">
+          <p class="muted">Телефон: <strong>+380 (67) 000-00-00</strong><br>Email: <strong>sales@holodpro.ua</strong><br>Адреса: м. Київ, вул. Промислова, 12</p>
+          <p class="muted">Графік роботи: Пн–Пт 9:00–18:00</p>
+        </div>
+        <div style="min-width:320px">
+          <form id="contactForm" style="display:flex;flex-direction:column;gap:8px">
+            <input id="cf_name" placeholder="Ім'я" required style="padding:10px;border-radius:8px;border:1px solid #e6eefc">
+            <input id="cf_contact" placeholder="Телефон або email" required style="padding:10px;border-radius:8px;border:1px solid #e6eefc">
+            <textarea id="cf_msg" placeholder="Повідомлення" style="padding:10px;border-radius:8px;border:1px solid #e6eefc"></textarea>
+            <button class="btn" type="submit">Відправити</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div class="muted">© ХолодПроф Україна — постачання холодильного обладнання по всій території України</div>
+      <div class="muted">Розроблено з ❤️ — gptonline.ai</div>
+    </div>
+  </footer>
+
+  <!-- cart drawer -->
+  <div class="drawer" id="cartDrawer" aria-hidden="true">
+    <div class="head">
+      <strong>Кошик</strong>
+      <button id="closeCart">Закрити</button>
+    </div>
+    <div class="body" id="cartBody"></div>
+    <div class="foot">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="muted small">Підсумок:</div>
+          <div id="cartTotal" style="font-weight:800">0 грн</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="checkoutBtn">Оформити замовлення</button>
+          <button class="btn btn-ghost" id="clearCart">Очистити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- product modal -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="panel">
+      <img id="modalImg" src="" alt="">
+      <div class="info">
+        <h3 id="modalTitle"></h3>
+        <div class="meta" id="modalCategory"></div>
+        <div style="margin-top:10px;font-weight:800;font-size:18px" id="modalPrice"></div>
+        <p class="muted" id="modalDesc" style="margin-top:12px"></p>
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+          <label>Кількість:</label>
+          <input id="modalQty" type="number" min="1" value="1" style="width:80px;padding:8px;border-radius:8px;border:1px solid #e6eefc">
+        </div>
+        <div style="margin-top:16px;display:flex;gap:8px">
+          <button class="btn" id="modalAdd">Додати в кошик</button>
+          <button class="btn btn-ghost" id="modalClose">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- checkout modal -->
+  <div class="modal" id="checkoutModal" aria-hidden="true">
+    <div class="panel" style="max-width:760px;flex-direction:column">
+      <div style="width:100%;display:flex;justify-content:space-between;align-items:center">
+        <h3>Оформлення замовлення</h3>
+        <button id="checkoutClose">Закрити</button>
+      </div>
+      <div style="width:100%;display:flex;gap:18px;margin-top:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:300px">
+          <label class="muted small">Ім'я</label>
+          <input id="order_name" required style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+          <label class="muted small" style="margin-top:8px">Телефон</label>
+          <input id="order_phone" required style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+          <label class="muted small" style="margin-top:8px">Email</label>
+          <input id="order_email" style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+          <label class="muted small" style="margin-top:8px">Адреса доставки / відділення</label>
+          <input id="order_address" style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+        </div>
+        <div style="flex:1;min-width:260px">
+          <h4>Параметри доставки</h4>
+          <select id="order_delivery" style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+            <option value="nova">Нова Пошта</option>
+            <option value="sat">SAT</option>
+            <option value="courier">Кур'єром</option>
+          </select>
+          <h4 style="margin-top:12px">Спосіб оплати</h4>
+          <select id="order_payment" style="padding:10px;border-radius:8px;border:1px solid #e6eefc;width:100%">
+            <option value="card">Карткою (демо)</option>
+            <option value="bank">Банківський переказ</option>
+            <option value="cash">Готівка при отриманні</option>
+          </select>
+          <div style="margin-top:16px">
+            <div class="muted small">Проміжна сума</div>
+            <div id="checkoutSubtotal" style="font-weight:800;font-size:18px">0 грн</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn" id="placeOrder">Підтвердити замовлення</button>
+            <button class="btn btn-ghost" id="saveQuote">Зберегти як пропозицію</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- PRODUCTS DATA (30 items) ---
+    const productsData = [
+      {id:1,title:"Вітрина холодильна Nord Frost 2000",category:"Вітрини",price:89000,desc:"Об'єм 450 л, LED-підсвітка, енергоефективна система охолодження.",img:"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=60"},
+      {id:2,title:"Морозильний лар ArcticFree 350",category:"Морозильні ларі",price:45000,desc:"Об'єм 350 л, енергоощадний компресор",img:"https://images.unsplash.com/photo-1600180758890-2e22680a9b27?auto=format&fit=crop&w=800&q=60"},
+      {id:3,title:"Холодильна камера ProfiCool 6 м³",category:"Камери",price:120000,desc:"Панелі PIR, професійний компресор, герметичні двері",img:"https://images.unsplash.com/photo-1582719478250-5b4b8f65d6a8?auto=format&fit=crop&w=800&q=60"},
+      {id:4,title:"Компресорний блок CoolMate 4",category:"Компресори",price:78000,desc:"Потужність 2.5 кВт, низький рівень шуму",img:"https://images.unsplash.com/photo-1602524202122-8f6b5c8a1b9b?auto=format&fit=crop&w=800&q=60"},
+      {id:5,title:"Вітрина для десертів SweetShow 120",category:"Вітрини",price:67000,desc:"Ідеальна для кондитерських, скляні полиці, LED",img:"https://images.unsplash.com/photo-1560184897-7b6a1b7d0a2d?auto=format&fit=crop&w=800&q=60"},
+      {id:6,title:"Мобільний морозильний модуль FreeGo",category:"Модулі",price:32000,desc:"Компактний, на колесах, температурний контроль",img:"https://images.unsplash.com/photo-1542204165-7fa0a2c252b9?auto=format&fit=crop&w=800&q=60"},
+      {id:7,title:"Професійний холодильно-комбінат MultiBox 12",category:"Камери",price:220000,desc:"Модульна конструкція, простий монтаж",img:"https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=60"},
+      {id:8,title:"Вітрина з пазовим склом ClearView",category:"Вітрини",price:99000,desc:"Антиблікове скло, енергоефективність A+",img:"https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=800&q=60"},
+      {id:9,title:"Морозильна шафа DeepFreeze 600",category:"Морозильні шафи",price:154000,desc:"Вертикальна шафа, цифровий контроль",img:"https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=60"},
+      {id:10,title:"Модуль охолодження SilentPro",category:"Компресори",price:42000,desc:"Низькошумний компресор для магазинів",img:"https://images.unsplash.com/photo-1582719478361-2d9a3b2a3c2a?auto=format&fit=crop&w=800&q=60"},
+      {id:11,title:"Вітрина морозильна Glacier 180",category:"Вітрини",price:78000,desc:"Ідеально для морозива та десертів",img:"https://images.unsplash.com/photo-1524594154903-1f4b6b3b0f8d?auto=format&fit=crop&w=800&q=60"},
+      {id:12,title:"Промисловий конденсатор CondiMax 200",category:"Компресори",price:65000,desc:"Висока продуктивність, довговічність",img:"https://images.unsplash.com/photo-1604537466605-9c09b3f4a0df?auto=format&fit=crop&w=800&q=60"},
+      {id:13,title:"Холодильник для напоїв CoolerBar 240",category:"Міні-холодильники",price:27000,desc:"Вертикальний холодильник з склом",img:"https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=800&q=60"},
+      {id:14,title:"Морозильний лар EcoFree 200",category:"Морозильні ларі",price:23000,desc:"Економна модель для невеликих магазинів",img:"https://images.unsplash.com/photo-1541534401786-580f8a5309da?auto=format&fit=crop&w=800&q=60"},
+      {id:15,title:"Камера шокового заморожування QuickFreeze",category:"Камери",price:310000,desc:"Швидке заморожування, збереження якості продуктів",img:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=60"},
+      {id:16,title:"Мобільна вітрина RollShow 90",category:"Вітрини",price:52000,desc:"Легка та мобільна, колеса з гальмами",img:"https://images.unsplash.com/photo-1542089363-5c6c1f0b4bb6?auto=format&fit=crop&w=800&q=60"},
+      {id:17,title:"Компресорно-конденсаторний агрегат ProUnit",category:"Компресори",price:132000,desc:"Повний професійний блок для великих об'єктів",img:"https://images.unsplash.com/photo-1602524202123-6b5c7c8a1b9b?auto=format&fit=crop&w=800&q=60"},
+      {id:18,title:"Вітрина для сиру CheeseShow 140",category:"Вітрини",price:74000,desc:"Контроль вологості та температури, ідеальна для сирних кейтерингів",img:"https://images.unsplash.com/photo-1516685018646-5492c2f6b01d?auto=format&fit=crop&w=800&q=60"},
+      {id:19,title:"Морозильна скриня PolarBox 500",category:"Морозильні ларі",price:99000,desc:"Великий об'єм для промислових потреб",img:"https://images.unsplash.com/photo-1560484897-2d7b3b2d3b2a?auto=format&fit=crop&w=800&q=60"},
+      {id:20,title:"Кліматична кімната HumidControl",category:"Камери",price:198000,desc:"Контроль вологості і температури для складських приміщень",img:"https://images.unsplash.com/photo-1532634896-26909d0d3b4b?auto=format&fit=crop&w=800&q=60"},
+      {id:21,title:"Вітрина з регульованими полицями FlexShelf",category:"Вітрини",price:88000,desc:"Регульовані полиці для різних типів продукції",img:"https://images.unsplash.com/photo-1526318472351-c75fcf0700f1?auto=format&fit=crop&w=800&q=60"},
+      {id:22,title:"Морозильна шафа RapidCold 800",category:"Морозильні шафи",price:175000,desc:"Велика вертикальна морозильна шафа для складу",img:"https://images.unsplash.com/photo-1498101012526-5f6e6a7f0b1a?auto=format&fit=crop&w=800&q=60"},
+      {id:23,title:"Міні-холодильник для офісу OfficeCool 60",category:"Міні-холодильники",price:9800,desc:"Компактний, тихий, стильний",img:"https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=60"},
+      {id:24,title:"Система моніторингу температури TempWatch",category:"Аксесуари",price:5600,desc:"Wi-Fi датчик з повідомленнями на телефон",img:"https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=60"},
+      {id:25,title:"Шкаф-охолоджувач BeveragePro 400",category:"Міні-холодильники",price:36000,desc:"Спеціально для напоїв, сучасний дизайн",img:"https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=60"},
+      {id:26,title:"Модульна холодильно-камерна панель PanelPro 1м",category:"Камери",price:8200,desc:"Панель 1м товщиною 120мм з PIR ізоляцією",img:"https://images.unsplash.com/photo-1582719478251-5b4b8f65d6a9?auto=format&fit=crop&w=800&q=60"},
+      {id:27,title:"Енергоефективний мотор InverterCool",category:"Компресори",price:46000,desc:"Інверторний мотор для економії енергії",img:"https://images.unsplash.com/photo-1602524202144-8f6b5c8a1b8b?auto=format&fit=crop&w=800&q=60"},
+      {id:28,title:"Морозильний контейнер MobileFreeze 20ф",category:"Камери",price:450000,desc:"Контейнерне рішення для великих складів",img:"https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=60"},
+      {id:29,title:"Холодильна вітрина SlimLine 100",category:"Вітрини",price:42000,desc:"Компактна і стильна, для невеликих магазинів",img:"https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?auto=format&fit=crop&w=800&q=60"},
+      {id:30,title:"Комплект для обслуговування (ремкомплект)",category:"Аксесуари",price:7800,desc:"Стартовий набір запчастин і витратних матеріалів",img:"https://images.unsplash.com/photo-1581091870621-3c2b9b3c4f6a?auto=format&fit=crop&w=800&q=60"}
+    ];
+
+    // --- RENDER CATEGORIES AND PRODUCTS ---
+    const productsEl = document.getElementById('products');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const searchInput = document.getElementById('searchInput');
+    const cartCount = document.getElementById('cartCount');
+
+    // collect unique categories
+    const categories = Array.from(new Set(productsData.map(p=>p.category)));
+    categories.forEach(c=>{ const opt=document.createElement('option');opt.value=c;opt.textContent=c;categoryFilter.appendChild(opt); });
+
+    let filtered = [...productsData];
+
+    function formatPrice(n){ return new Intl.NumberFormat('uk-UA').format(n) + ' грн'; }
+
+    function renderProducts(list=filtered){ productsEl.innerHTML='';
+      list.forEach(p=>{
+        const card = document.createElement('div');card.className='card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.title}">
+          <h3 style="margin:10px 0 6px">${p.title}</h3>
+          <div class="muted small">${p.category}</div>
+          <div class="muted" style="margin-top:8px">${p.desc}</div>
+          <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+            <div class="price">${formatPrice(p.price)}</div>
+            <div>
+              <button class="btn" data-action="view" data-id="${p.id}">Детальніше</button>
+              <button style="margin-left:8px" class="btn btn-ghost" data-action="add" data-id="${p.id}">В кошик</button>
+            </div>
+          </div>
+        `;
+        productsEl.appendChild(card);
+      }) }
+
+    // --- CART LOGIC ---
+    let cart = JSON.parse(localStorage.getItem('hp_cart')||'[]');
+    function updateCartCount(){ cartCount.textContent = cart.reduce((s,i)=>s+i.qty,0); }
+    function saveCart(){ localStorage.setItem('hp_cart',JSON.stringify(cart)); updateCartCount(); renderCart(); }
+
+    function addToCartById(id,qty=1){ const prod = productsData.find(x=>x.id==id); if(!prod) return; const found = cart.find(i=>i.id==id); if(found) found.qty += qty; else cart.push({id:prod.id,title:prod.title,price:prod.price,qty:qty,img:prod.img}); saveCart(); }
+
+    function renderCart(){ const cartBody = document.getElementById('cartBody'); cartBody.innerHTML=''; if(cart.length===0){ cartBody.innerHTML='<div class="muted">Кошик порожній</div>'; document.getElementById('cartTotal').textContent='0 грн'; return }
+      let sum=0; cart.forEach(item=>{ sum += item.price * item.qty; const row = document.createElement('div'); row.className='item-row'; row.innerHTML = `
+        <img src="${item.img}" alt="${item.title}">
+        <div style="flex:1">
+          <div style="font-weight:700">${item.title}</div>
+          <div class="muted small">${formatPrice(item.price)} × ${item.qty}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+          <button data-id="${item.id}" data-op="plus">+</button>
+          <button data-id="${item.id}" data-op="minus">−</button>
+        </div>
+      `; cartBody.appendChild(row); }); document.getElementById('cartTotal').textContent = formatPrice(sum); }
+
+    // --- MODALS ---
+    const modal = document.getElementById('productModal');
+    const checkoutModal = document.getElementById('checkoutModal');
+    function openProduct(id){ const p = productsData.find(x=>x.id==id); if(!p) return; document.getElementById('modalImg').src=p.img; document.getElementById('modalTitle').textContent=p.title; document.getElementById('modalCategory').textContent=p.category; document.getElementById('modalPrice').textContent = formatPrice(p.price); document.getElementById('modalDesc').textContent=p.desc; document.getElementById('modalQty').value=1; modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); modal.dataset.id = id; }
+
+    function closeProduct(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); delete modal.dataset.id; }
+
+    function openCheckout(){ if(cart.length===0){ alert('Кошик порожній'); return } document.getElementById('checkoutSubtotal').textContent = document.getElementById('cartTotal').textContent; checkoutModal.classList.add('open'); checkoutModal.setAttribute('aria-hidden','false'); }
+    function closeCheckout(){ checkoutModal.classList.remove('open'); checkoutModal.setAttribute('aria-hidden','true'); }
+
+    // --- EVENTS ---
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      if(btn.dataset.action==='add'){ addToCartById(Number(btn.dataset.id)); return }
+      if(btn.dataset.action==='view'){ openProduct(Number(btn.dataset.id)); return }
+      if(btn.id==='openCart'){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','false'); renderCart(); return }
+      if(btn.id==='closeCart'){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','true'); return }
+      if(btn.dataset.op==='plus' || btn.dataset.op==='minus'){ const id=Number(btn.dataset.id); const it = cart.find(x=>x.id===id); if(!it) return; if(btn.dataset.op==='plus') it.qty++; else it.qty = Math.max(0,it.qty-1); cart = cart.filter(x=>x.qty>0); saveCart(); return }
+      if(btn.id==='checkoutBtn'){ openCheckout(); return }
+      if(btn.id==='clearCart'){ if(confirm('Очистити кошик?')){ cart=[]; saveCart(); } return }
+      if(btn.id==='modalClose'){ closeProduct(); return }
+      if(btn.id==='modalAdd'){ const id=Number(modal.dataset.id); const q = Number(document.getElementById('modalQty').value) || 1; addToCartById(id,q); closeProduct(); return }
+      if(btn.id==='checkoutClose'){ closeCheckout(); return }
+      if(btn.id==='placeOrder'){ placeOrder(); return }
+      if(btn.id==='saveQuote'){ saveQuote(); return }
+    });
+
+    // search and filters
+    searchInput.addEventListener('input', ()=>{ applyFilters() });
+    categoryFilter.addEventListener('change', ()=>{ applyFilters() });
+    document.getElementById('resetFilters').addEventListener('click', ()=>{ searchInput.value=''; categoryFilter.value='all'; applyFilters(); });
+
+    function applyFilters(){ const q = searchInput.value.trim().toLowerCase(); const cat = categoryFilter.value; filtered = productsData.filter(p=>{
+      if(cat!=='all' && p.category!==cat) return false;
+      if(!q) return true;
+      return (p.title + ' ' + p.desc + ' ' + p.category).toLowerCase().includes(q);
+    }); renderProducts(); }
+
+    // contact form
+    document.getElementById('contactForm').addEventListener('submit', function(e){ e.preventDefault(); alert('Дякуємо! Ми отримали ваш запит і зв'яжемося з вами найближчим часом.'); this.reset(); });
+
+    // checkout logic (demo): collect data, create order JSON, clear cart
+    function placeOrder(){ const name = document.getElementById('order_name').value.trim(); const phone = document.getElementById('order_phone').value.trim(); if(!name || !phone){ alert('Заповніть, будь ласка, ім\'я та телефон.'); return }
+      const email = document.getElementById('order_email').value.trim(); const addr = document.getElementById('order_address').value.trim(); const delivery = document.getElementById('order_delivery').value; const payment = document.getElementById('order_payment').value;
+      const order = { id: 'HP' + Date.now(), name, phone, email, address:addr, delivery, payment, items:cart, total:document.getElementById('cartTotal').textContent, created:new Date().toISOString() };
+      // в реальному проєкті тут йде запит на сервер або інтеграція з платіжною системою
+      console.log('ORDER', order);
+      // показуємо користувачу підтвердження
+      alert('Дякуємо! Замовлення прийнято. Номер замовлення: ' + order.id);
+      // зберігаємо запит як запис (демо)
+      const quotes = JSON.parse(localStorage.getItem('hp_orders')||'[]'); quotes.push(order); localStorage.setItem('hp_orders',JSON.stringify(quotes));
+      cart=[]; saveCart(); closeCheckout(); document.getElementById('order_name').value=''; document.getElementById('order_phone').value=''; document.getElementById('order_email').value=''; document.getElementById('order_address').value=''; }
+
+    function saveQuote(){ const name = document.getElementById('order_name').value.trim()||'Клієнт'; const phone = document.getElementById('order_phone').value.trim()||'-'; const order = { id:'Q'+Date.now(), name, phone, items:cart, total:document.getElementById('cartTotal').textContent, created:new Date().toISOString() }; const quotes = JSON.parse(localStorage.getItem('hp_quotes')||'[]'); quotes.push(order); localStorage.setItem('hp_quotes',JSON.stringify(quotes)); alert('Комерційна пропозиція збережена локально (демо).'); }
+
+    // init
+    renderProducts(); updateCartCount(); renderCart();
+
+  </script>
+</body>
+</html>
